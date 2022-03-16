@@ -12,7 +12,7 @@ Project components:
 
 1. Bird Feeder – is a main “hardware” component of the application. It is custom made bird feeder structure which has Raspberry Pi attached along with its ultrasound, light, temperature, and humidity sensors. The bird feeder is installed outside and supplied with sunflower seeds. The feeder is open for a bird to visit at any time. 
 
-2. Node-Red, a flow-based development tool for visual programming, is used to build logic and setup Raspberry Pi components. In order to check the application setup and get access to our Raspberry Pi, use the following link: https://98.237.171.67:1880/#flow 
+2. Node-Red, a flow-based development tool for visual programming, is used to build logic and setup Raspberry Pi components. 
 
 3. Once a bird lands the bird feeder, then the ultrasounic distance sensor decrease and indicates the presence of a bird.  The birdPresent flag is set to ‘yes’.  
 
@@ -30,9 +30,9 @@ b.	probability of species
 
 9. The data received from steps 7 and 8 is automatically stored in InfluxDB database every minute. From step 6, if the probability of the bird species is greater than 50%, the bird species, count increment of one, and the photo are stored in InfluxDB and S3, respectively.  
 
-10. The application uses AWS S3 to save images (as an alternative for InfluxDB) and hosts a static HTML website for photo viewing at  https://tcss573project.s3.us-west-2.amazonaws.com/index.html.
+10. The application uses AWS S3 to save images (as an alternative for InfluxDB) and hosts a static HTML website for photo viewing.
 
-11. The application outputs, values and runs statistics using Grafana, a multi-platform open-source analytics and interactive visualization web application. In order to see our dashboard, go to: http://98.237.171.67:3000.
+11. The application outputs, values and runs statistics using Grafana, a multi-platform open-source analytics and interactive visualization web application. 
 
 
 Database schema:
@@ -46,13 +46,3 @@ Probability: double value
 Species: String with a bird’s type name
 Temp: integer value
 isBirdPresent: “Yes”/ “No”
-
-
-AWS Credentials:
-AccessKeyId=AKIA2VWMEKFHQQB4EMPL
-AWSSecretKey=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
-
-
-Microsoft Azure Credentials:
-URL: https://tcss573project-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/24e86e88-bd93-43a4-82f0-cd42911e5c11/detect/iterations/Iteration2/image
-Prediction-Key: ee691b3db4da45608f2fbe61b5913faf 
