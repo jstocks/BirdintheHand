@@ -1,0 +1,622 @@
+[
+    {
+        "id": "f795e2586cd06dde",
+        "type": "tab",
+        "label": "Project",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "75a691bf40fc240d",
+        "type": "group",
+        "z": "f795e2586cd06dde",
+        "name": "AWS S3",
+        "style": {
+            "stroke": "#ffC000",
+            "fill": "#ffefbf",
+            "label": true,
+            "color": "#777777"
+        },
+        "nodes": [
+            "d0d4bfd3b2ac4173",
+            "d32cd1fd3150c777",
+            "5ede3b7cad9a9c7c",
+            "821738f338a58be9",
+            "0ac1d9a70c64fa50",
+            "c909b8d39a844919"
+        ],
+        "x": 714,
+        "y": 79,
+        "w": 492,
+        "h": 222
+    },
+    {
+        "id": "11acb532422291d2",
+        "type": "group",
+        "z": "f795e2586cd06dde",
+        "name": "Sensors & Payload",
+        "style": {
+            "stroke": "#92d04f",
+            "label": true,
+            "color": "#777777",
+            "fill": "#e3f3d3"
+        },
+        "nodes": [
+            "2a33f18184c02637",
+            "398b1169b9638d8b",
+            "e69983a39f41781e",
+            "087d86a4c095d16e",
+            "ab77febd2e3b70b0",
+            "24ad731b28189f22",
+            "1822033e585cf110",
+            "cfba7bf48301a175",
+            "e86ed7972f0ed6db",
+            "27534a8d00fdb79a",
+            "c3af1afff72f5263",
+            "7c395e312d0e5dcb",
+            "b98d3e12ea8d6875"
+        ],
+        "x": 14,
+        "y": 79,
+        "w": 452,
+        "h": 382
+    },
+    {
+        "id": "ac70ea836a3851c3",
+        "type": "group",
+        "z": "f795e2586cd06dde",
+        "name": "Azure Custom Vision",
+        "style": {
+            "stroke": "#0070c0",
+            "fill": "#bfdbef",
+            "label": true,
+            "color": "#777777"
+        },
+        "nodes": [
+            "d56d75be58f90f55",
+            "4ea8d2a14e92049a",
+            "9af4c2cad7505673",
+            "aecf8e5a299e6efb",
+            "a971899885ee68c7"
+        ],
+        "x": 654,
+        "y": 339,
+        "w": 612,
+        "h": 122
+    },
+    {
+        "id": "656bf35a0a559822",
+        "type": "group",
+        "z": "f795e2586cd06dde",
+        "name": "Influx DB",
+        "style": {
+            "stroke": "#6f2fa0",
+            "fill": "#dbcbe7",
+            "label": true,
+            "color": "#777777"
+        },
+        "nodes": [
+            "75bfb88054a25f0f",
+            "25176198852d747e"
+        ],
+        "x": 754,
+        "y": 539,
+        "w": 252,
+        "h": 122
+    },
+    {
+        "id": "2a33f18184c02637",
+        "type": "grove digital sensor",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Room Temp/RH Sensor",
+        "board": "d9741c4ecb8480f9",
+        "sensor": "dht11",
+        "repeat": "60",
+        "pin": "5",
+        "x": 140,
+        "y": 320,
+        "wires": [
+            [
+                "398b1169b9638d8b"
+            ]
+        ]
+    },
+    {
+        "id": "398b1169b9638d8b",
+        "type": "function",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Sensor Payload",
+        "func": "if (!(isNaN(msg.payload['temperature'])) ||\n    !(isNaN(msg.payload['humidity']))  ||\n    !(isNaN(msg.payload['heatIndex'])))\n{\n    msg.payload = {\n        temp: msg.payload['temperature'],\n        hum: msg.payload['humidity'],\n        heat: msg.payload['heatIndex']\n    };\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 320,
+        "wires": [
+            [
+                "75bfb88054a25f0f"
+            ]
+        ]
+    },
+    {
+        "id": "e69983a39f41781e",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Store Temp/Humidity",
+        "info": "",
+        "x": 130,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "087d86a4c095d16e",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Format values",
+        "info": "",
+        "x": 350,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "ab77febd2e3b70b0",
+        "type": "function",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Sensor Payload",
+        "func": "\n    msg.payload = {\n        light: msg.payload,\n    };\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 420,
+        "wires": [
+            [
+                "75bfb88054a25f0f"
+            ]
+        ]
+    },
+    {
+        "id": "24ad731b28189f22",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Light Sensor",
+        "info": "",
+        "x": 110,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "1822033e585cf110",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Format values",
+        "info": "",
+        "x": 350,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "cfba7bf48301a175",
+        "type": "function",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Motion Detected",
+        "func": "var lastReading = global.get(\"birdFlag\") || \"no\";  // global variable; store value if bird present\nvar currentReading = msg.payload;\n\nif (currentReading > 12) { // no bird present\n    global.set(\"birdFlag\", \"no\")\n}\n\nelse {  // bird present\n    if (lastReading == \"no\") { // bird not present\n        global.set(\"birdFlag\", \"yes\");\n        return msg //take a photo of new bird\n    }\n    else {  //bird hasn't left\n        //pass\n    }   \n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 160,
+        "wires": [
+            [
+                "4ea8d2a14e92049a"
+            ]
+        ]
+    },
+    {
+        "id": "e86ed7972f0ed6db",
+        "type": "grove digital sensor",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Ultrasonc Ranger",
+        "board": "d9741c4ecb8480f9",
+        "sensor": "ultrasonic",
+        "repeat": "3",
+        "pin": "2",
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "cfba7bf48301a175",
+                "e380f41af95d067e",
+                "b98d3e12ea8d6875"
+            ]
+        ]
+    },
+    {
+        "id": "27534a8d00fdb79a",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Motion Detection",
+        "info": "",
+        "x": 120,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "d56d75be58f90f55",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "ac70ea836a3851c3",
+        "name": "Camera",
+        "info": "",
+        "x": 730,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "75bfb88054a25f0f",
+        "type": "influxdb out",
+        "z": "f795e2586cd06dde",
+        "g": "656bf35a0a559822",
+        "influxdb": "8eba784df156d93b",
+        "name": "Project Database",
+        "measurement": "Project573",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 890,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "3a3744bd910f80dc",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "name": "Bird in the Hand - Project Overview",
+        "info": "Jeff:\nInflux DB\nComputer Vision\nCamera\nPrototype Feeder\nGrafana\nS3\n\nVictoria:\nLight\nTemp/RH\nGrafana\n\nGrafana Dashboard:\nhttp://98.237.171.67:3000/d/CG0LUvkgk/project573?orgId=1&from=1646259975794&to=1646281575794",
+        "x": 160,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "c3af1afff72f5263",
+        "type": "grove analog sensor",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Light Sensor",
+        "pin": "0",
+        "sensor": "light",
+        "repeat": "60",
+        "board": "d9741c4ecb8480f9",
+        "x": 110,
+        "y": 420,
+        "wires": [
+            [
+                "ab77febd2e3b70b0"
+            ]
+        ]
+    },
+    {
+        "id": "4ea8d2a14e92049a",
+        "type": "camerapi-takephoto",
+        "z": "f795e2586cd06dde",
+        "g": "ac70ea836a3851c3",
+        "filemode": "0",
+        "filename": "",
+        "filedefpath": "1",
+        "filepath": "",
+        "fileformat": "jpeg",
+        "resolution": "9",
+        "rotation": "0",
+        "fliph": "0",
+        "flipv": "0",
+        "brightness": "50",
+        "contrast": "0",
+        "sharpness": "0",
+        "quality": "80",
+        "imageeffect": "none",
+        "exposuremode": "auto",
+        "iso": "0",
+        "agcwait": "1.0",
+        "led": "0",
+        "awb": "auto",
+        "name": "Take Photo",
+        "x": 750,
+        "y": 420,
+        "wires": [
+            [
+                "9af4c2cad7505673",
+                "3edc3327eeaebe6f"
+            ]
+        ]
+    },
+    {
+        "id": "9af4c2cad7505673",
+        "type": "Computer Vision",
+        "z": "f795e2586cd06dde",
+        "g": "ac70ea836a3851c3",
+        "operation": "tags",
+        "name": "Custom Vision",
+        "x": 940,
+        "y": 420,
+        "wires": [
+            [
+                "aecf8e5a299e6efb"
+            ]
+        ]
+    },
+    {
+        "id": "aecf8e5a299e6efb",
+        "type": "function",
+        "z": "f795e2586cd06dde",
+        "g": "ac70ea836a3851c3",
+        "name": "Parse JSON data",
+        "func": "var temp = msg.payload.predictions[0].probability;\nglobal.set(\"latestProb\", msg.payload.predictions[0].probability)\n\nif(temp >= 0.5){\n    msg.payload = {\n      species: msg.payload.predictions[0].tagName,\n      probability: temp,\n      count: 1  \n    }\n    return msg;\n}\n\nelse {\n    //pass\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 420,
+        "wires": [
+            [
+                "75bfb88054a25f0f"
+            ]
+        ]
+    },
+    {
+        "id": "d0d4bfd3b2ac4173",
+        "type": "amazon s3 out",
+        "z": "f795e2586cd06dde",
+        "g": "75a691bf40fc240d",
+        "aws": "",
+        "bucket": "tcss573project",
+        "filename": "birdImage.jpg",
+        "localFilename": "",
+        "region": "us-west-2",
+        "name": "Send Pic to S3 bucket",
+        "x": 870,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "7c395e312d0e5dcb",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Distance below 13cm",
+        "info": "",
+        "x": 340,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "d32cd1fd3150c777",
+        "type": "amazon s3 out",
+        "z": "f795e2586cd06dde",
+        "g": "75a691bf40fc240d",
+        "aws": "",
+        "bucket": "tcss573project",
+        "filename": "",
+        "localFilename": "",
+        "region": "us-west-2",
+        "name": "Send Pic to S3 bucket",
+        "x": 870,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "a971899885ee68c7",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "ac70ea836a3851c3",
+        "name": "Send to Azure Custom Vision Model",
+        "info": "",
+        "x": 1000,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "5ede3b7cad9a9c7c",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "75a691bf40fc240d",
+        "name": "Store in S3 for Grafana",
+        "info": "",
+        "x": 1080,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "821738f338a58be9",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "75a691bf40fc240d",
+        "name": "Store unique file in S3",
+        "info": "",
+        "x": 1080,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "25176198852d747e",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "656bf35a0a559822",
+        "name": "Send data to InfluxDB",
+        "info": "",
+        "x": 880,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "0ac1d9a70c64fa50",
+        "type": "function",
+        "z": "f795e2586cd06dde",
+        "g": "75a691bf40fc240d",
+        "name": "Send Photo if > 50%",
+        "func": "if (global.get(\"latestProb\") >= 0.5) {\n    return msg\n}\n\nelse {\n    //do not send photo\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 160,
+        "wires": [
+            [
+                "d0d4bfd3b2ac4173",
+                "d32cd1fd3150c777"
+            ]
+        ]
+    },
+    {
+        "id": "c909b8d39a844919",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "g": "75a691bf40fc240d",
+        "name": "Upload Photo if Bird Identified",
+        "info": "",
+        "x": 860,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b1bb430d78ba5fbe",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "name": "Add Bird to DB, Count if Prob > 50%",
+        "info": "",
+        "x": 1100,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "3edc3327eeaebe6f",
+        "type": "delay",
+        "z": "f795e2586cd06dde",
+        "name": "Wait 10 sec",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 610,
+        "y": 160,
+        "wires": [
+            [
+                "0ac1d9a70c64fa50"
+            ]
+        ]
+    },
+    {
+        "id": "cdb287f536daef28",
+        "type": "comment",
+        "z": "f795e2586cd06dde",
+        "name": "Azure Lag",
+        "info": "",
+        "x": 600,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "b98d3e12ea8d6875",
+        "type": "function",
+        "z": "f795e2586cd06dde",
+        "g": "11acb532422291d2",
+        "name": "Bird Present?",
+        "func": "if(msg.payload < 11){\n    msg.payload = {\n        isBirdPresent: \"Yes\"\n    }\n}\nelse{\n    msg.payload = {\n        isBirdPresent: \"No\"\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 240,
+        "wires": [
+            [
+                "75bfb88054a25f0f",
+                "08d824f3c9948994"
+            ]
+        ]
+    },
+    {
+        "id": "e380f41af95d067e",
+        "type": "debug",
+        "z": "f795e2586cd06dde",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "08d824f3c9948994",
+        "type": "debug",
+        "z": "f795e2586cd06dde",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d9741c4ecb8480f9",
+        "type": "board-config",
+        "board": "GrovePi"
+    },
+    {
+        "id": "8eba784df156d93b",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "project573_db",
+        "name": "InfluxDB",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    }
+]
